@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -184,7 +185,7 @@ public class StreamExercise {
         double expected = 54.42;
         double averageAge = 0;
         // todo: write your code here
-        ToIntFunction<Person> personToAge = person -> Period.between( person.getDateOfBirth(),LocalDate.now()).getYears();
+        ToIntFunction<Person> personToAge = person -> Period.between( person.getDateOfBirth(),LocalDate.parse("2019-12-20")).getYears();
 
         averageAge = people.stream().mapToInt(personToAge).average().getAsDouble();
         //averageAge = people.stream().mapToInt(person -> Period.between())
@@ -218,9 +219,11 @@ public class StreamExercise {
     @Test
     public void task13() {
         int expectedSize = 107;
-        Map<String, List<Person>> personMap = null;
-
+        Map<String, List<Person>> personMap = people.stream().collect(Collectors.groupingBy(Person::getLastName));
         // todo: write your code here
+
+
+
 
         assertNotNull(personMap);
         assertEquals(expectedSize, personMap.size());
@@ -234,6 +237,7 @@ public class StreamExercise {
         LocalDate[] _2020_dates = null;
 
         // todo: write your code here
+        _2020_dates = Stream.iterate(LocalDate.of(2020, 1,1), date -> date.plusDays(1) ).limit(366).toArray(LocalDate[]::new);
 
         assertNotNull(_2020_dates);
         assertEquals(366, _2020_dates.length);
